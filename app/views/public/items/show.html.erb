@@ -1,0 +1,23 @@
+<h2>商品詳細</h2>
+
+<% if @item.image.present? %>
+    <%= image_tag @item.image, size: '100x100' %>
+  <% else %>
+    <%= image_tag 'noimage.jpg'%>
+  <% end %>
+
+<p>商品名:<%= @item.name %></p>
+
+<p>商品説明:<%= @item.introduction %></p>
+
+<p>税込価格<br>(税抜価格):<%= @item.add_tax_price.to_s(:dalimited) %>(<%= @item.price %>)</p>
+<% if customer_signed_in?  %>
+<%= form_with model: @cartitem, url: cart_items_path, local:true do |f| %>
+<div class="form-group">
+      <label for="item-genre"></label>
+      <%= f.hidden_field :item_id, value: @item.id %>
+      <%= f.select :amount, *[1..10], include_blank: "選択して下さい" %>
+    </div>
+    <%= f.submit "カートに入れる", class:'btn btn-info' %>
+<%end%>
+<%end%>

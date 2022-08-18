@@ -1,0 +1,68 @@
+<h2>注文履歴詳細</h2>
+
+<p>購入者: <%= @order.customer.full_name %></p>
+
+<p>注文日: <%= @order.created_at %></p>
+
+<p>配送先: <%= @order.shipping_postal_code %><br>
+           <%= @order.shipping_address %><br>
+           <%= @order.shipping_name %>  </p>
+
+<p>支払方法: <%= @order.payment_method %></p>
+
+<%= form_with model: @order, url: admin_order_history_path(@order.id), class:"update_status" do |f| %>
+    <%= f.select :status, OrderHistory.statuses.keys %>
+    <%= f.submit "更新", class:'btn btn-info' %>
+  <% end %>
+
+  <div class="col-md-8 offset-md-1">
+<table class="table table-hover table-inverse">
+  <thead>
+    <tr>
+      <th>商品名</th>
+      <th>単価(税込)</th>
+      <th>数量</th>
+      <th>小計</th>
+      <th>製作ステータス</th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sum = 0 %>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.item.name %></td>
+        <td><%= order.item.add_tax_price.to_s(:dalimited)  %></td>
+        <td><%= order.amount %></td>
+        <td><%= (order.item.add_tax_price*order.amount).to_s(:dalimited) %></td>
+        <td><%= form_with model: order, url: admin_order_detail_path(order.id),local: true, class:"update_status" do |f| %>
+    <%= f.select :making_status, OrderDetail.making_statuses.keys %>
+    <%= f.submit "更新", class:'btn btn-info' %>
+    <%  @sum += (order.item.add_tax_price*order.amount)  %>
+  <% end %>
+  </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
+
+<table class=table2>
+  <tbody>
+    <tr>
+      <td>送料</td>
+      <td><%=@order.postage%></td>
+    </tr>
+      <tr>
+      <td>商品合計</td>
+      <td><%= @sum %></td>
+    </tr>
+      <tr>
+      <td>請求金額</td>
+      <td><%= @order.postage.to_i + @sum.to_i %></td>
+    </tr>
+  </tbody>
+</table>
+

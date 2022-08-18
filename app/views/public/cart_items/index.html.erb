@@ -1,0 +1,49 @@
+
+<div class="col-md-8 offset-md-1">
+  <h2>ショッピングカート</h2>
+<div>
+<%= button_to "カートを空にする", destroy_all_cart_items_path, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-danger" %></div>
+<table class="table table-hover table-inverse">
+  <thead>
+    <tr>
+      <th>商品名</th>
+      <th>単価</th>
+      <th>数量</th>
+      <th>小計</th>
+      <th></th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cartitems.each do |cartitem| %>
+      <tr>
+        <td><%= image_tag cartitem.item.image, size: '100x100' %>
+           <label><%= cartitem.item.name %></label></td>
+        <td><%= cartitem.item.add_tax_price.to_s(:dalimited) %></td>
+        <td><%= form_with model: cartitem, url: cart_item_path(cartitem.id), local:true do |f| %>
+          <%= f.select :amount, *[1..10]  %>
+          <%= f.submit "変更", class:'btn btn-sm btn-danger' %>
+          <% end %>
+          </td>
+        <td><%= (cartitem.item.add_tax_price*cartitem.amount).to_s(:dalimited) %></td>
+        <td><%= link_to '削除する', cartitem, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-sm btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<label>
+  <%= link_to '買い物を続ける', root_path, class:"btn btn-sm btn-primary"  %>
+</label>
+<% if @cartitems.present?%>
+<label>
+  <%= link_to '情報入力に進む', new_order_history_path, class:"btn btn-sm btn-success"  %>
+</label>
+<%end%>
+<div>¥<%= @total.round.to_s(:delimited)%></div>
+
+</div>
+
+
+

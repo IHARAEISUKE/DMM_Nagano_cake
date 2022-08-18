@@ -1,0 +1,47 @@
+<h2>会員情報編集</h2>
+
+<p>会員ID:<%= @customer.id %></p>
+<%= form_with model: @customer, url: admin_customer_path, local:true do |f| %>
+
+<div class="form-group">
+  <label for="customer-name">氏名</label>
+     <%= f.text_area :last_name %> <%= f.text_area :first_name %>
+    </div>
+    <div class="form-group">
+    <label for="customer-name-kana">フリガナ</label>
+      <%= f.text_area :last_name_kana %> <%= f.text_area :first_name_kana %>
+    </div>
+
+    <div class="form-group">
+    <label for="customer-postal_code">郵便番号</label>
+      <%= f.text_area :postal_code %>
+    </div>
+
+    <div class="form-group">
+      <label for="customer-address">住所</label>
+      <%= f.text_area :address %>
+    </div>
+
+    <div class="form-group">
+    <label for="customer-telephone_number">電話番号</label>
+      <%= f.text_area :telephone_number %>
+    </div>
+
+     <div class="form-group">
+    <label for="customer-email">電話番号</label>
+      <%= f.text_area :email %>
+    </div>
+
+    <div class="form-group">
+    <label for="customer-status">会員ステータス</label>
+     <%= f.label :is_active, '有効' %>
+     <%= f.radio_button :is_active, true %>
+
+     <%= f.label :is_active, '退会' %>
+     <%= f.radio_button :is_active, false %>
+    </div>
+
+    <div class="form-group">
+    <input type="submit" name="commit" value="変更を保存" class="btn btn-success" data-disable-with="Create Book">
+  </div>
+    <%  end %>

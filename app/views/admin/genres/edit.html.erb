@@ -1,0 +1,13 @@
+<h2>ジャンル編集</h2>
+
+<%= form_with model: @genre, url: admin_genre_path, local:true do |f| %>
+
+  <div class="form-group">
+    <label for="genre_title" >ジャンル名</label>
+    <%= f.text_field :name, class: "form-control book_title"  %>
+  </div>
+
+  <div class="form-group">
+    <input type="submit" name="commit" value="変更を保存"  class="btn btn-success" data-disable-with="Update name">
+  </div>
+<% end %>

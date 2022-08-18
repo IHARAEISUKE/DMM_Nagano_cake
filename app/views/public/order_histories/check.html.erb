@@ -1,0 +1,67 @@
+<h2>注文情報確認</h2>
+<div class="col-md-6 offset-md-1">
+<table class="table table-hover table-inverse">
+  <thead>
+    <tr>
+      <th>商品名</th>
+      <th>単価(税込)</th>
+      <th>数量</th>
+      <th>小計</th>
+      <th></th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sum = 0 %>
+    <% @cartitems.each do |cartitem| %>
+      <tr>
+        <td><%= image_tag cartitem.item.image, size: '100x100' %>
+           <label><%= cartitem.item.name %></label></td>
+        <td><%= cartitem.item.add_tax_price.to_s(:dalimited) %></td>
+        <td><%= cartitem.amount %></td>
+        <td><%= (cartitem.item.add_tax_price*cartitem.amount).to_s(:dalimited) %></td>
+      </tr>
+      <% @sum += (cartitem.item.add_tax_price*cartitem.amount) %>
+    <% end %>
+  </tbody>
+</table>
+
+<table class=table2>
+  <tbody>
+    <tr>
+      <td>送料</td>
+      <td><%=@postage%></td>
+    </tr>
+      <tr>
+      <td>商品合計</td>
+      <td><%= @sum %></td>
+    </tr>
+      <tr>
+      <td>請求金額</td>
+      <td><%= @postage.to_i + @sum.to_i %></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<p>支払方法:<%=  @order.payment_method %></p>
+<p>お届け先:<%=  @order.shipping_address %></p>
+<%= @order.shipping_postal_code %>
+<%= @order.shipping_name %>
+
+<%=form_with model: @order, url: order_histories_path, method: :post, local:true do |f|  %>
+<%= f.hidden_field :shipping_name, value: @order.shipping_name %>
+<%= f.hidden_field :shipping_postal_code, value: @order.shipping_postal_code %>
+<%= f.hidden_field :shipping_address, value: @order.shipping_address %>
+<%= f.hidden_field :customer_id, value: current_customer.id %>
+<%= f.hidden_field :payment, value: @postage.to_i + @sum.to_i %>
+<%= f.hidden_field :postage, value: @postage %>
+<%= f.hidden_field :payment_method, value: @order.payment_method %>
+<%= f.submit "注文を確定する",class:"btn btn-sm btn-success" %>
+<%end%>
+
+</div>
+
+
+

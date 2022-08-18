@@ -1,0 +1,26 @@
+<h2>マイページ</h2>
+
+<div><%= link_to '編集する', edit_customer_path(@customer), class:"btn btn-sm btn-success" %></div>
+
+<p>氏名:<%= @customer.full_name %></p>
+
+<p>フリガナ:<%= @customer.full_name_kana %></p>
+
+<p>郵便番号:<%= @customer.postal_code %></p>
+
+<p>住所:<%= @customer.address %></p>
+
+<p>電話番号:<%= @customer.telephone_number %></p>
+
+<p>メールアドレス:<%= @customer.email  %></p>
+
+  <div　class="btn-wrapper col-10 mx-auto">
+  <div class="row">
+    <label>配送先</label>
+    <td><%= link_to '一覧を見る', shipping_addresses_path, class:"btn btn-sm btn-success" %></td>
+  </div>
+  <div class="row">
+    <label>注文履歴一覧</label>
+    <td><%= link_to '一覧を見る', order_histories_path, class:"btn btn-sm btn-success" %></td>
+  </div>
+</div>

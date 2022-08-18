@@ -1,0 +1,7 @@
+
+ja:
+  enum:
+    OrderHistory:
+      payment_method:
+        crezit: "クレジット決済"
+        cash: "銀行振込"
